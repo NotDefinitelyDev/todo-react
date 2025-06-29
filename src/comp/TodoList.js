@@ -57,7 +57,7 @@ export default function ToDoSt() {
     useEffect( ()=> {
       let newList = JSON.parse(localStorage.getItem("newGoal")) ?? []
       setTodo(newList)
-    }, [])
+    }, [setTodo])
   
                         // =================== Method 2 =============================== //
 
