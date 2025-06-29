@@ -1,0 +1,100 @@
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent; 
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.2); 
+  border-radius: 8px;
+  transition: background 0.3s;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.4); 
+}
+
+
+
+
+.todo {
+    background-color: white;
+    max-height: 600px;
+    overflow: scroll;
+    width: 580px;
+     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    color: black;
+}
+
+.todo h1 {
+    border-bottom: 1px solid rgba(101, 22, 146, 0.281);
+    margin: 20px 40px;
+    
+}
+
+.card {
+    transition: .3s;
+}
+
+.card:hover {
+    padding: 10px 0;
+
+}
+
+.icon {
+    transition: all 0.4s !important;
+}
+
+.icon:hover {
+    color:  #fbe4f4 !important; 
+    font-size: 41px !important;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px, rgb(51, 51, 51) 0px 0px 0px 3px!important;
+}
+
+.btn {
+    transition: .3s;
+}
+
+.btn:hover {
+     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3) !important;
+     background-color:  #1e0c26;
+}
+
+.line {
+    text-decoration: line-through;
+}
+
+@media (max-width: 590px) {
+    .todo {
+    background-color: white;
+    max-height: 600px;
+    overflow: scroll;
+    max-width: 100%;
+    box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
+    border-radius: 10px;
+    color: black;
+    }
+    .icon {
+        font-size: 35px !important;
+    }
+}
+
+.card {
+  animation: fadeInUp 0.4s ease;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
