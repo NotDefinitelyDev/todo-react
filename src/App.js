@@ -1,5 +1,5 @@
 import "./App.css";
-import { SnackbarProvider, useSnackbar } from 'notistack';
+import { SnackbarProvider } from 'notistack';
 import TodoList from "./comp/TodoList";
 import { State } from "./context/PassState.js";
 import { useState } from "react";
