@@ -1,4 +1,5 @@
 import "./App.css";
+import { SnackbarProvider, useSnackbar } from 'notistack';
 import TodoList from "./comp/TodoList";
 import { State } from "./context/PassState.js";
 import { useState } from "react";
@@ -51,6 +52,7 @@ function App() {
   const [todolist, setTodo] = useState(todo);
   return (
     <ThemeProvider theme={theme}>
+      <SnackbarProvider maxSnack={1} autoHideDuration={3000} >
       <div className="App">
         <header className="App-header">
           <State.Provider value={{ todolist, setTodo }}>
@@ -58,6 +60,7 @@ function App() {
           </State.Provider>
         </header>
       </div>
+      </SnackbarProvider>
     </ThemeProvider>
   );
 }

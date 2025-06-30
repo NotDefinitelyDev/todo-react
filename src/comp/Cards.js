@@ -7,26 +7,16 @@ import IconButton from "@mui/material/IconButton";
 import CheckCircleRoundedIcon from "@mui/icons-material/CheckCircleRounded";
 import DeleteSweepRoundedIcon from "@mui/icons-material/DeleteSweepRounded";
 import EditNoteRoundedIcon from "@mui/icons-material/EditNoteRounded";
-import TextField from '@mui/material/TextField';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
-import Button from '@mui/material/Button';
 import { State } from "../context/PassState";
-import { useContext,useState } from "react";
+import { useContext } from "react";
+import { useSnackbar } from 'notistack';
 
 
-export default function OutlinedCard({ele}) {   
-
+export default function OutlinedCard({ele , showModal,showEditModal}) {   
   // States
-    const [open, setOpen] = useState(false);
-    const [openEdit, setOpenEdit] = useState(false);
     const {todolist , setTodo} = useContext(State)
-    const [updatedList , setUpdatedList] = useState({title: ele.title, details: ele.subTitle})
+    const { enqueueSnackbar } = useSnackbar();
   // Functions
-      // 1
     function handleChecker(id) {
       const updatedOne = todolist.map((card) => {
         if (card.id === id) {
@@ -36,111 +26,11 @@ export default function OutlinedCard({ele}) {
       });
       setTodo(updatedOne);
       localStorage.setItem("newGoal", JSON.stringify(updatedOne))
-    }
-    // handelDelete
-    function handelDelete() {
-      setOpen(true)
-    }
-    //  handelDeleteConfirm
-    function handelDeleteConfirm(id) {
-      let edited = todolist.filter((ele) => ele.id !== id);
-      setTodo(edited)
-      handleClose()
-      localStorage.setItem("newGoal", JSON.stringify(edited))
-    }
-    // handleClose
-    const handleClose = () => {
-      setOpen(false);
-    };   
-    // handleOpenEdit
-    function handleOpenEdit() {
-        setOpenEdit(true)
-    }
-    // handleCloseEdit
-    function handleCloseEdit() {
-        setOpenEdit(false)
-    }
-    // handelEditConfirm
-    function handelEditConfirm(id) {
-      const edit = todolist.map((todo)=> {
-        if (todo.id === id) {
-          return ({...todo, title: updatedList.title , subTitle: updatedList.details })
-        } else {
-          return todo
-        }
-      })
-      setTodo(edit)
-      localStorage.setItem("newGoal", JSON.stringify(edit))
-      handleCloseEdit(true)
-    }
-    
-  
+      enqueueSnackbar('Mission Accomplished!', { variant: 'success' } );
+    }   
+ 
     return (
       <>    
-      {/* Close Modal */}
-      <Dialog
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title">
-          {"Are You Sure You Want To Delete The Goal 😱😱"}
-        </DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            If You Are Really Sure Press DELETE
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose}>I'm Kidding</Button>
-          <Button  autoFocus onClick={()=> handelDeleteConfirm(ele.id)}>
-            DELETE
-          </Button>
-        </DialogActions>
-      </Dialog>
-      {/*======== Close Modal======== */}
-
-      {/* Edit Modal */}
-      <Dialog
-        open={openEdit}
-        onClose={handleOpenEdit}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title">
-          {"✨✨ Edit Your Goal ✨✨"}
-        </DialogTitle>
-        <DialogContent>
-        <TextField
-            autoFocus
-            margin="dense"
-            id="name"
-            label="Goal Title"
-            fullWidth
-            variant="outlined"
-            value={updatedList.title}
-            onChange={(e)=> setUpdatedList({...updatedList, title: e.target.value})}
-          />
-         <TextField
-            autoFocus
-            margin="dense"
-            id="name"
-            label="Goal Details"
-            fullWidth
-            variant="outlined"
-            value={updatedList.details}
-            onChange={(e)=> setUpdatedList({...updatedList, details: e.target.value})}
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleCloseEdit}>Close</Button>
-          <Button  autoFocus onClick={()=> handelEditConfirm(ele.id)}>
-            Edit
-          </Button>
-        </DialogActions>
-      </Dialog>
-      {/* === Edit Modal ====*/}
         <Card>
           <CardContent
             sx={{
@@ -175,10 +65,11 @@ export default function OutlinedCard({ele}) {
                         color: ele.isCompleted ? "green" : "white",
                         borderRadius: "20px",
                       }}
+                      
                     />
                   </IconButton>
                   {/* Delete Button */}
-                  <IconButton onClick={()=> handelDelete()}>
+                  <IconButton onClick={()=>showModal(ele)}>
                     <DeleteSweepRoundedIcon
                       className="icon"
                       sx={{
@@ -189,7 +80,7 @@ export default function OutlinedCard({ele}) {
                     />
                   </IconButton>
                   {/* Edit Button */}
-                  <IconButton onClick={handleOpenEdit}>
+                  <IconButton onClick={()=>showEditModal(ele)}>
                     <EditNoteRoundedIcon
                       className="icon"
                       sx={{
